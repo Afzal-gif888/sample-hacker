@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --color-ink: #eef3f8;
+  --color-muted: #9aa8b6;
+  --color-accent: #8fb5aa;
+  --color-accent-strong: #cbb892;
+  --radius-control: 0.9rem;
+  --radius-card: 1.55rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    background: #0b1018;
+    color: var(--color-ink);
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(
+      180deg,
+      rgba(18, 24, 34, 0.78) 0%,
+      rgba(14, 19, 28, 0.7) 100%
+    );
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(22px);
+  }
+
+  .field-shell {
+    display: flex;
+    height: 3rem;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: var(--radius-control);
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.04);
+    padding-inline: 0.9rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition:
+      border-color 280ms ease,
+      box-shadow 280ms ease,
+      transform 280ms ease,
+      background-color 280ms ease;
+  }
+
+  .field-shell-idle {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .field-shell-idle:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .field-shell-idle:focus-within {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.18),
+      0 0 0 3px color-mix(in srgb, var(--color-accent) 16%, transparent);
+  }
+
+  .field-shell-error {
+    border-color: rgba(251, 113, 133, 0.5);
+    box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.12);
+  }
+}
+
+@layer utilities {
+  .animate-fade {
+    animation: fade-in 420ms ease-out both;
+  }
+
+  .animate-rise {
+    animation: rise-in 480ms ease-out both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade,
+  .animate-rise {
+    animation: none;
+  }
+
+  .field-shell-idle:hover,
+  .field-shell-idle:focus-within {
+    transform: none;
+  }
+}
